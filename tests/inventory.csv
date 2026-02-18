@@ -1,0 +1,3 @@
+hostname,ip,role
+rtr-core-01,10.1.1.1,router
+sw-access-02,10.1.2.5,switch

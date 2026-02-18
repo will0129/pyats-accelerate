@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  netsnap:
+    build: .
+    container_name: netsnap-portal
+    ports:
+      - "5000:5000"
+    volumes:
+      # Persist snapshots
+      - ./snapshots:/app/snapshots
+      # Persist database (users) - Flask-SQLAlchemy usually puts sqlite in instance/ or root
+      # In our code 'sqlite:///users.db' puts it relative to CWD (/app/users.db)
+      # Let's map a data directory to handle this cleaner in future, but for now map the file if it exists, 
+      # or map the root. Mapping root /app is bad development practice (overwrites code).
+      # Let's persist the db specifically.
+      - netsnap_data:/app/instance
+      # Persist uploads
+      - ./uploads:/app/uploads
+    environment:
+      - FLASK_APP=run_web.py
+      - FLASK_ENV=production
+      - NETWORK_USER=${NETWORK_USER}
+      - NETWORK_PASS=${NETWORK_PASS}
+    restart: unless-stopped
+
+volumes:
+  netsnap_data:

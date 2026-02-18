@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <h1 class="text-2xl font-semibold text-gray-900 mb-6">Validation Report</h1>
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+            <div class="mb-4">
+                <p><strong>Baseline:</strong> {{ report.baseline }}</p>
+                <p><strong>Current:</strong> {{ report.current }}</p>
+            </div>
+
+            {% if not report.deviations %}
+            <div class="rounded-md bg-green-50 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <!-- Heroicon check-circle -->
+                        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-green-800">No Deviations Found</h3>
+                        <div class="mt-2 text-sm text-green-700">
+                            <p>The current state matches the baseline exactly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="space-y-6">
+                {% for device, changes in report.deviations.items() %}
+                <div class="border border-red-200 rounded-md p-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">{{ device }}</h3>
+
+                    {% if changes.error %}
+                    <p class="text-red-600 font-bold">Error: {{ changes.error }}</p>
+                    {% endif %}
+
+                    {% if changes.interfaces %}
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Interface</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Change</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    From</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    To</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for item in changes.interfaces %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{
+                                    item.interface }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.change }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.from }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.to }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="mt-6">
+                <a href="{{ url_for('main.dashboard') }}" class="text-indigo-600 hover:text-indigo-900">Back to
+                    Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

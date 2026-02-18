@@ -1,0 +1,16 @@
+pyats
+genie
+unicon
+click
+pandas
+openpyxl
+PyYAML
+deepdiff
+jinja2
+tabulate
+pytest
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-WTF
+email_validator

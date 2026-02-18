@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Netsnap Help & Documentation</h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">How to use the portal effectively.</p>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-6 prose max-w-none">
+        <h4>1. Getting Started</h4>
+        <p>Before you begin, ensure you have a valid inventory file.</p>
+        <p><strong>Step 1: Download Template</strong> - Go to Dashboard and download the CSV template locally.</p>
+        <p><strong>Step 2: Fill Inventory</strong> - Add your devices (Hostname, IP, Role) to the CSV.</p>
+        <p><strong>Step 3: Upload Inventory</strong> - Upload the filled CSV via the "Upload Inventory" button. This
+            will initialize the testbed.</p>
+
+        <h4>2. Operations</h4>
+        <p><strong>Capture Snapshot:</strong> Connects to all devices in the inventory and captures their current state
+            (Interfaces, CPU, Memory). Saved with a timestamp.</p>
+        <p><strong>Validate State:</strong> Captures a <em>fresh</em> snapshot and compares it against a selected
+            Baseline Snapshot. Generates a report of deviations.</p>
+
+        <h4>3. Role Permissions</h4>
+        <ul>
+            <li><strong>Read Only:</strong> Can view dashboard and run Validations/Captures (but not modify inventory).
+            </li>
+            <li><strong>Power User:</strong> Can upload inventory (modify topology) and run all operations.</li>
+            <li><strong>Admin User:</strong> Can manage users and has full access.</li>
+        </ul>
+
+        <h4>4. Troubleshooting</h4>
+        <p>If connections fail, ensure the backend server has network access to the devices and
+            `NETWORK_USER`/`NETWORK_PASS` environment variables are set correctly.</p>
+    </div>
+</div>
+{% endblock %}

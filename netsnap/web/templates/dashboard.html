@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Quick Actions -->
+    <div class="col-span-1 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Quick Actions</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6 space-y-4">
+
+            {% if current_user.role in ['admin', 'power'] %}
+            <div>
+                <h4 class="font-medium text-gray-700">Inventory</h4>
+                <div class="mt-2 flex space-x-2">
+                    <a href="{{ url_for('main.download_template') }}"
+                        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">Download
+                        Template</a>
+                    <a href="{{ url_for('main.upload_inventory') }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">Upload
+                        Inventory</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div>
+                <h4 class="font-medium text-gray-700">Operations</h4>
+                <div class="mt-2 flex space-x-2">
+                    <a href="{{ url_for('main.capture') }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none">Capture
+                        Snapshot</a>
+                    <a href="{{ url_for('main.validate') }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">Validate
+                        State</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Recent Snapshots -->
+    <div class="col-span-1 md:col-span-2 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Snapshots</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">List of available baseline snapshots.</p>
+        </div>
+        <ul class="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+            {% for snap in snapshots %}
+            <li class="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium text-indigo-600 truncate">{{ snap }}</p>
+                    <div class="ml-2 flex-shrink-0 flex">
+                        <!-- Actions? Maybe View Details? -->
+                        <span
+                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Available</span>
+                    </div>
+                </div>
+            </li>
+            {% else %}
+            <li class="px-4 py-4 sm:px-6 text-gray-500 text-sm text-center">No snapshots found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
