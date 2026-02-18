@@ -8,7 +8,7 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'dev-secret-key-change-in-production' # TODO: Env var
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     # Use instance path for DB to allow cleaner volume mapping
     import os
     db_path = os.path.join(app.instance_path, 'users.db')
