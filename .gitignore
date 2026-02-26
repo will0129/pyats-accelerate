@@ -118,6 +118,7 @@ instance/
 # Context file
 context.tmp
 *.tmp
+context.ignore
 
 
 # IDEs
